@@ -24,9 +24,15 @@ class PotatoDiseasePredictor:
         Args:
             model_path: Path to saved model checkpoint
             model_type: Type of model ('custom', 'resnet', 'efficientnet')
-            device: Device to run on ('cuda' or 'cpu')
+            device: Device to run on ('cuda', 'mps', or 'cpu')
         """
-        self.device = torch.device(device if torch.cuda.is_available() else 'cpu')
+        # Auto-detect best available device
+        if device == 'cuda' and not torch.cuda.is_available():
+            if torch.backends.mps.is_available():
+                device = 'mps'
+            else:
+                device = 'cpu'
+        self.device = torch.device(device)
         self.model_type = model_type
 
         # Load model
