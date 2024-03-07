@@ -293,7 +293,7 @@ def plot_confusion_matrix(cm, class_names, save_path):
 
 if __name__ == "__main__":
     # Configuration
-    DATA_DIR = 'data'
+    DATA_DIR = '../data'  # Relative to src directory
     BATCH_SIZE = 32
     EPOCHS = 25
     LEARNING_RATE = 0.001
