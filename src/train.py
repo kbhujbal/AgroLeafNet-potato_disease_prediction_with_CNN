@@ -48,7 +48,7 @@ class Trainer:
         self.criterion = nn.CrossEntropyLoss()
         self.optimizer = optim.Adam(self.model.parameters(), lr=learning_rate)
         self.scheduler = ReduceLROnPlateau(self.optimizer, mode='min', factor=0.5,
-                                          patience=3, verbose=True)
+                                          patience=3)
 
         # Training history
         self.history = {
