@@ -74,28 +74,34 @@ class PotatoDataset:
         )
 
         # Create data loaders
+        # Use num_workers=0 for macOS/MPS to avoid multiprocessing issues
+        import torch
+        use_mps = torch.backends.mps.is_available()
+        num_workers = 0 if use_mps else 4
+        pin_memory = not use_mps  # pin_memory not supported on MPS
+
         train_loader = DataLoader(
             train_dataset,
             batch_size=self.batch_size,
             shuffle=True,
-            num_workers=4,
-            pin_memory=True
+            num_workers=num_workers,
+            pin_memory=pin_memory
         )
 
         val_loader = DataLoader(
             val_dataset,
             batch_size=self.batch_size,
             shuffle=False,
-            num_workers=4,
-            pin_memory=True
+            num_workers=num_workers,
+            pin_memory=pin_memory
         )
 
         test_loader = DataLoader(
             test_dataset,
             batch_size=self.batch_size,
             shuffle=False,
-            num_workers=4,
-            pin_memory=True
+            num_workers=num_workers,
+            pin_memory=pin_memory
         )
 
         class_names = train_dataset.classes
